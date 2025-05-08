@@ -29,6 +29,7 @@ jobs:
         if: github.event.repository.fork == false && github.ref_name == 'main'
         with:
           context: .
+          file: keepalived.Dockerfile
           push: true
           tags: |
             ghcr.io/itrooz/keepalived:latest
