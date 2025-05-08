@@ -31,6 +31,8 @@ jobs:
           context: .
           file: keepalived.Dockerfile
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             ghcr.io/itrooz/keepalived:latest
             ghcr.io/itrooz/keepalived:${{ github.sha }}
