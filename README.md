@@ -18,3 +18,6 @@ targetNodes:
 ```
 - Run `helmfile sync` to apply to your cluster
 - Done !
+
+
+Note: in case this repository is not updated, the only external dependency you need is the `keepalived` image. You only need to provide animage with `keepalived` installed.
