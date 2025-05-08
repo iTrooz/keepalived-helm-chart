@@ -1,0 +1,38 @@
+# Default values for Keepalived deployment
+replicaCount: 2
+
+image:
+  # image with keepalived installed
+  repository: osixia/keepalived
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+config:
+  virtualRouterId: 51
+  interface: eno1
+  password: securepassword
+  virtualIpAddress: 192.168.1.100
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# To deploy Keepalived using affinity rules, you can specify node affinity in the following way:
+# 1. Automatically select all master nodes using the `node-role.kubernetes.io/master` label.
+#    This is done by default if `targetNodes` is left empty.
+# 2. Specify a list of node names in `targetNodes` to target specific nodes.
+#
+# Example for automatically selecting all master nodes:
+# targetNodes: []
+#
+# Example for targeting specific nodes by name:
+# targetNodes:
+#   - node1
+#   - node2
+#   - node3
+#
+targetNodes: []

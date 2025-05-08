@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "keepalived.fullname" . }}
+  labels:
+    {{- include "keepalived.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "keepalived.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "keepalived.labels" . | nindent 8 }}
+    spec:
+      hostNetwork: true
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              {{- if .Values.targetNodes }}
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      {{- toYaml .Values.targetNodes | nindent 22 }}
+              {{- else }}
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/master
+                    operator: Exists
+              {{- end }}
+      containers:
+        - name: keepalived
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            # privileged: true
+            capabilities:
+              add: ["NET_ADMIN"]
+          volumeMounts:
+            - name: keepalived-config
+              mountPath: /etc/keepalived/keepalived.conf
+              subPath: keepalived.conf
+          command: ["keepalived"]
+          args:
+            - "--dont-fork"
+            - "--log-detail"
+            - "--log-console"
+            - "--use-file=/etc/keepalived/keepalived.conf"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: keepalived-config
+          configMap:
+            name: {{ include "keepalived.fullname" . }}-config
