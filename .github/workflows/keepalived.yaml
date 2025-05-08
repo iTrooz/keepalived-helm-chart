@@ -26,6 +26,7 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
+        if: github.event.repository.fork == false && github.ref_name == 'main'
         with:
           context: .
           push: true
