@@ -3,8 +3,8 @@ repositories:
     url: https://charts.helm.sh/stable
 
 releases:
-  - name: keepalived-me
-    namespace: keepalived-me
+  - name: keepalived
+    namespace: keepalived
     chart: ./
     values:
       - values.yaml
