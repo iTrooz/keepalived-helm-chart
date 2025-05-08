@@ -19,5 +19,4 @@ targetNodes:
 - Run `helmfile sync` to apply to your cluster
 - Done !
 
-
-Note: in case this repository is not updated, the only external dependency you need is the `keepalived` image. You only need to provide animage with `keepalived` installed.
+The only external dependency you need is an image with `keepalived` installed. You can use the one provided in this repository (`ghcr.io/itrooz/keepalived:latest`), but in case the repository is not updated in a while, you can also bring your own.

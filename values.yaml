@@ -3,7 +3,7 @@ replicaCount: 2
 
 image:
   # image with keepalived installed
-  repository: osixia/keepalived
+  repository: ghcr.io/itrooz/keepalived
   pullPolicy: IfNotPresent
   tag: "latest"
 
