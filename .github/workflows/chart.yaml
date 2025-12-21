@@ -1,0 +1,27 @@
+name: Package and Push Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+      - ci
+
+jobs:
+  release-helm-chart:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Push Helm chart to GHCR
+        uses: bsord/helm-push@v4
+        with:
+          useOCIRegistry: true
+          registry-url: oci://ghcr.io/richarddorian/helm-charts
+          username: ${{ github.actor }}
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          chart-folder: .
