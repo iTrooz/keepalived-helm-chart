@@ -11,7 +11,7 @@ You can either deploy it using the OCI Artifact or using the local files.
 - Using the `helm` CLI tool install the chart.
 
 ```sh
-helm install [RELEASE_NAME] oci://ghcr.io/richarddorian/helm-charts/keepalived
+helm install [RELEASE_NAME] oci://ghcr.io/itrooz/helm-charts/keepalived
 ```
 
 ## Using local files
