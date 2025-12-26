@@ -36,5 +36,5 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ghcr.io/itrooz/keepalived:latest
-            ghcr.io/itrooz/keepalived:${{ github.sha }}
+            ghcr.io/richarddorian/keepalived:latest
+            ghcr.io/richarddorian/keepalived:${{ github.sha }}
