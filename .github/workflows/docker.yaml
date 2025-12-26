@@ -7,7 +7,7 @@ on:
       - ci
 
 jobs:
-  build-and-push:
+  push-docker-image:
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -28,7 +28,7 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
-        if: github.event.repository.fork == false && github.ref_name == 'main'
+        if: github.ref_name == 'main'
         with:
           context: .
           file: keepalived.Dockerfile

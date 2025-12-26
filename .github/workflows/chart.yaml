@@ -1,0 +1,35 @@
+name: Package and Push Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+      - ci
+
+jobs:
+  release-helm-chart:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+      
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Package Helm chart
+        run: |
+          helm package .
+
+      - name: Push Helm chart to GHCR
+        run: |
+          CHART_VERSION=$(helm show chart . | grep '^version:' | awk '{print $2}')
+          CHART_NAME=$(helm show chart . | grep '^name:' | awk '{print $2}')
+          helm push ${CHART_NAME}-${CHART_VERSION}.tgz oci://ghcr.io/itrooz/helm-charts
