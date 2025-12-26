@@ -32,4 +32,4 @@ jobs:
         run: |
           CHART_VERSION=$(helm show chart . | grep '^version:' | awk '{print $2}')
           CHART_NAME=$(helm show chart . | grep '^name:' | awk '{print $2}')
-          helm push ${CHART_NAME}-${CHART_VERSION}.tgz oci://ghcr.io/richarddorian/helm-charts
+          helm push ${CHART_NAME}-${CHART_VERSION}.tgz oci://ghcr.io/itrooz/helm-charts
